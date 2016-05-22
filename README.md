@@ -24,7 +24,7 @@ AIT
 	Mỗi dãy con sẽ được sắp xếp theo thuật toán heap_sort.
 	Sau khi sắp xêp dãy con sẽ ghi dãy con ra file ans.txt.
 3.	File test và ans
-	File test được tạo random với giá trị từ -2*1000000000 đến 2*1000000000.
+	File test được tạo random với giá trị từ -2000000000 đến 2000000000.
 	Với 1 triệu phần tử.
 4.	Chương trình kiểm tra đáp án
 	Chương trình kiểm tra đáp án chạy từ đầu file ans.txt đến cuối file.
