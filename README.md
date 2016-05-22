@@ -15,12 +15,12 @@ AIT
 	Tính khoảng giá trị của dãy delta = max – min.
 	Khoảng giá trị trung bình của 500 dãy là value = delta/500;
 	Cách lấy giới hạn của mỗi khoảng dãy con
-	minarray1 = min  -> maxarray1 = minarray1 + value
 	
-	minarray2 = maxarray1  -> maxarray2 = minarray2 + value
-			. . .
-	minarray500 = maxarray499 -> maxarray500 = max + 1
-
+	-	minarray1 = min  -> maxarray1 = minarray1 + value
+	-	minarray2 = maxarray1  -> maxarray2 = minarray2 + value
+	-	. . . 
+	-	minarray500 = maxarray499 -> maxarray500 = max + 1
+	
 	Mỗi dãy con sẽ được sắp xếp theo thuật toán heap_sort.
 	Sau khi sắp xêp dãy con sẽ ghi dãy con ra file ans.txt.
 3.	File test và ans
