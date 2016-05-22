@@ -39,32 +39,31 @@ int main(){
 	
 	clock_t begin = clock();
 	
-    long long min = 0, max = 0, temp;
+    int min = 0, max = 0, temp;
     int array[10000];
     FILE *f;
     f = fopen("test.txt", "rt");
     fscanf(f, "%d\n", &min);
     max = min;
     
-    //L?y giá tr? 2 mút c?a dãy
+    //L?y giï¿½ tr? 2 mï¿½t c?a dï¿½y
     while(!feof(f)){
-    	fscanf(f, "%lld\n", &temp);
+    	fscanf(f, "%d\n", &temp);
         if(min > temp) min = temp;
         if(max < temp) max = temp;
     }
-    fclose(f);
-    //printf("%lld %lld", min, max);
+    //printf("%d %d", min, max);
     FILE *w; // M? file ans
     w = fopen("ans.txt","wt");
     
-    long long value = (max - min)/500;
-    //printf("\n %lld", value);
-    long long tempmax, tempmin;
+    int value = max/500 - min/500;
+    //printf("\n %d", value);
+    int tempmax, tempmin;
     tempmax = min;
     int i, count, j;
     for(i = 1; i <= 500; ++i){
     //	printf("%d \n",i);
-        f = fopen("test.txt", "rt");
+        rewind(f);
         tempmin = tempmax;
         if(i != 500){
 			tempmax = i*value + min;
@@ -74,7 +73,7 @@ int main(){
 	//	printf("%d %d\n",tempmin, tempmax);
         count = 1;
         while(!feof(f)){
-        	fscanf(f, "%lld\n", &temp);
+        	fscanf(f, "%d\n", &temp);
             if((temp >= tempmin) && (temp < tempmax)){
 				array[count] = temp;
                 ++count;
@@ -85,10 +84,10 @@ int main(){
         for(j = 1; j <= count; ++j){
             fprintf(w, "%d\n", array[j]);
         }
-        fclose(f);
     }
     
 	fclose(w);
+	fclose(f);
     
     clock_t end = clock();
 	printf("\n\n\ntime run: %f",(double)(end-begin)/(double)CLOCKS_PER_SEC);
