@@ -1,93 +1,103 @@
 #include<stdio.h>
 #include<time.h>
 
-inline void swap(int *a, int *b){
+void swap(int *a, int *b){
 	int temp = *a;
 	*a = *b;
 	*b = temp;
 }
 
-void heap_ify(int *A, int i, int n){
-	int L = 2*i,
-	R = 2*i + 1,
-	max = i;
-	if((A[max] < A[R]) && (R <= n)) max = R;
-	if((A[max] < A[L]) && (L <= n)) max = L;
-	if(max != i){
-		swap(&A[max], &A[i]);
-		heap_ify(A, max, n);
+void insert_sort(int *A, int first, int last){
+	int i, qk, j;
+	for(i = first + 1; i <= last; ++i){
+		qk = A[i];
+		j = i;
+		while((j > first)&&(A[j -1] > qk)){
+			A[j] = A[j -1];
+			--j;
+		}
+		A[j] = qk;
 	}
 }
 
-void build_heap(int *A, int first, int last){
-	int i = last/2;
-	for(; i >= 1; --i){
-		heap_ify(A, i, last);
+int partition(int *A, int first, int last){
+	int pivot = A[first], i = first, j = last + 1;
+	while(i < j){
+		i++;
+		while((i <= last ) && (pivot > A[i])) i++;
+		--j;
+		while((j >= first) && (pivot < A[j])) j--;
+		swap(&A[i], &A[j]);
+	}
+	swap(&A[i], &A[j]);
+	swap(&A[j], &A[first]);
+	return j;
+}
+
+void quick_sort(int *A, int first, int last){
+	if(last - first < 9){
+		insert_sort(A, first, last);
+	}else{
+		int pivot = partition(A, first, last);
+		quick_sort(A, first, pivot - 1);
+		quick_sort(A, pivot + 1, last);
 	}
 }
 
-void heap_sort(int *A, int first, int last){ // bat dau tu 1
-	build_heap(A, first, last);
-	int i;
-	for(i = last; i > 1; --i){
-		swap(&A[i], &A[1]);
-		heap_ify(A, 1, i -1);
-	}
-}
-
-void merge(char *in1, char *in2, char *out, int first1, last1, int first2, int last2){
+void merge(char *in1, char *in2, char *out, int first1, int last1, int first2, int last2){
 	FILE *input1, *input2, *output;
 	int value1, value2;
+	int st1 = first1, st2 = first2;
 	input1 = fopen(in1,"rt");
 	input2 = fopen(in2,"rt");
-	while((last1 >= first1) && (last2 >= first2)){
+	while((last1 >= st1) && (last2 >= st2)){
 		output = fopen(out, "w");
 		fseek (output, 0, SEEK_END);
 		int count = 250000;
-		while(count < 1){
-			fscanf(input1, "%d\n", &input1);
-			fscanf(input2, "%d\n", &input2);
+		while((count > 1) && (last1 >= st1) && (last2 >= st2))
+		{
+			fscanf(input1, "%d\n", &value1);
+			fscanf(input2, "%d\n", &value2);
 			if(value1 < value2){
-				fprintf(output, "%d\n", input1);
-				++first1;
+				fprintf(output, "%d\n", value1);
+				++st1;
 				--count;
 			}else{
-				fprintf(output, "%d\n", input2);
-				++first2;
+				fprintf(output, "%d\n", value2);
+				++st2;
 				--count;
 			}
-		}
+		}	
 		fclose(output);
 	}
 	
-	while(last1 >= first1){
+	while(last1 >= st1){
+		int count = 250000;
 		output = fopen(out, "w");
 		fseek (output, 0, SEEK_END);
-		while(count > 1)
+		while((count > 1) && (last1 >= st1))
 		{
-			int count = 250000;
-			fscanf(input1, "%d\n", &input1);
-			fprintf(output, "%d\n", input1);
-			++first1;
+			fscanf(input1, "%d\n", &value1);
+			fprintf(output, "%d\n", value2);
+			++st1;
 			--count;
 		}
 		fclose(output);
 	}
 	
-	while(last2 >= first2){
+	while(last2 >= st2){
 		output = fopen(out, "w");
 		fseek (output, 0, SEEK_END);
-		while(count > 1)
+		int count = 250000;
+		while((count > 1) && (last2 >= st2))
 		{
-			int count = 250000;
-			fscanf(input2, "%d\n", &input2);
-			fprintf(output, "%d\n", input2);
-			++first2;
+			fscanf(input2, "%d\n", &value2);
+			fprintf(output, "%d\n", value2);
+			++st2;
 			--count;
 		}
 		fclose(output);
 	}
-	
 }
 
 int main(){
@@ -99,9 +109,9 @@ int main(){
     input2[] = "test2.txt",
     input3[] = "test3.txt",
     input4[] = "test4.txt",
-    ans1[] = "ans1.txt";
-    ans2[] = "ans2.txt";
-    output[] = "ans.txt";
+    ans1[] = "ans1.txt",
+    ans2[] = "ans2.txt",
+    output[] = "output.txt";
     
     
     FILE *f;
@@ -115,7 +125,7 @@ int main(){
 			array[j] = temp;
 		}
 		
-		heap_sort(array, 1, 250000);
+		quick_sort(array, 1, 250000);
 		
 		switch(i){
 			case 1: w = fopen(input1, "wt"); break;
@@ -136,8 +146,6 @@ int main(){
 	merge(ans1, ans2, output, 1, 500000, 1, 500000);
 	
 	
-	
-    
     clock_t end = clock();
 	printf("\n\n\ntime run: %f",(double)(end-begin)/(double)CLOCKS_PER_SEC);
     
