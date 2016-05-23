@@ -35,7 +35,58 @@ void heap_sort(int *A, int first, int last){ // bat dau tu 1
 	}
 }
 
-void merge(FILE *input1, FILE *input2, FILE *output, int first1, last1, int first2, int last2){
+void merge(char *in1, char *in2, char *out, int first1, last1, int first2, int last2){
+	FILE *input1, *input2, *output;
+	int value1, value2;
+	input1 = fopen(in1,"rt");
+	input2 = fopen(in2,"rt");
+	while((last1 >= first1) && (last2 >= first2)){
+		output = fopen(out, "w");
+		fseek (output, 0, SEEK_END);
+		int count = 250000;
+		while(count < 1){
+			fscanf(input1, "%d\n", &input1);
+			fscanf(input2, "%d\n", &input2);
+			if(value1 < value2){
+				fprintf(output, "%d\n", input1);
+				++first1;
+				--count;
+			}else{
+				fprintf(output, "%d\n", input2);
+				++first2;
+				--count;
+			}
+		}
+		fclose(output);
+	}
+	
+	while(last1 >= first1){
+		output = fopen(out, "w");
+		fseek (output, 0, SEEK_END);
+		while(count > 1)
+		{
+			int count = 250000;
+			fscanf(input1, "%d\n", &input1);
+			fprintf(output, "%d\n", input1);
+			++first1;
+			--count;
+		}
+		fclose(output);
+	}
+	
+	while(last2 >= first2){
+		output = fopen(out, "w");
+		fseek (output, 0, SEEK_END);
+		while(count > 1)
+		{
+			int count = 250000;
+			fscanf(input2, "%d\n", &input2);
+			fprintf(output, "%d\n", input2);
+			++first2;
+			--count;
+		}
+		fclose(output);
+	}
 	
 }
 
@@ -43,44 +94,47 @@ int main(){
 	
 	clock_t begin = clock();
 	
-    int array[25001];
+    int array[250001];
+    char input1[] = "test1.txt",
+    input2[] = "test2.txt",
+    input3[] = "test3.txt",
+    input4[] = "test4.txt",
+    ans1[] = "ans1.txt";
+    ans2[] = "ans2.txt";
+    output[] = "ans.txt";
+    
     
     FILE *f;
     f = fopen("test.txt", "rt");
     
     FILE *w;
     int temp, i, j;
-	for(i = 1; i <= 5; ++i){
+	for(i = 1; i <= 4; ++i){
 		for(j = 1; j <= 250000; ++j){
 			fscanf(f, "%d\n", &temp);
 			array[j] = temp;
 		}
 		
-		heap_sort(array, 1, 25000);
+		heap_sort(array, 1, 250000);
 		
 		switch(i){
-			case 1: w = fopen("temp1.txt", "wt"); break;
-			case 2: w = fopen("temp2.txt", "wt"); break;
-			case 3: w = fopen("temp3.txt", "wt"); break;
-			case 4: w = fopen("temp4.txt", "wt"); break;
+			case 1: w = fopen(input1, "wt"); break;
+			case 2: w = fopen(input2, "wt"); break;
+			case 3: w = fopen(input3, "wt"); break;
+			case 4: w = fopen(input4, "wt"); break;
 		}
 		
-		for(j = 1; j <= 25000; ++j){
+		for(j = 1; j <= 250000; ++j){
 			fprintf(w, "%d\n", array[j]);
 		}
 		
 		fclose(w);
 	}
 	
-	FILE *ans;
+	merge(input1, input2, ans1, 1, 250000, 1, 250000);
+	merge(input3, input4, ans2, 1, 250000, 1, 250000);
+	merge(ans1, ans2, output, 1, 500000, 1, 500000);
 	
-	FILE *t1, *t2, *t3, *t4;
-	
-	int count;
-	int first1 = 1, first2 = 1, first3 = 1, first4 = 1, first5 = 1;
-	int last1 = 20000, last2 = 20000, last3 = 20000, last4 = 20000, last5 = 20000;
-	int temp1, temp2, temp3, temp4, temp5;
-	int min;
 	
 	
     
