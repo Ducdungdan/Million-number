@@ -35,63 +35,57 @@ void heap_sort(int *A, int first, int last){ // bat dau tu 1
 	}
 }
 
+void merge(FILE *input1, FILE *input2, FILE *output, int first1, last1, int first2, int last2){
+	
+}
+
 int main(){
 	
 	clock_t begin = clock();
 	
-    int min = 0, max = 0, temp;
-    int array[10000];
+    int array[25001];
+    
     FILE *f;
     f = fopen("test.txt", "rt");
-    fscanf(f, "%d\n", &min);
-    max = min;
     
-    //L?y gi� tr? 2 m�t c?a d�y
-    while(!feof(f)){
-    	fscanf(f, "%d\n", &temp);
-        if(min > temp) min = temp;
-        if(max < temp) max = temp;
-    }
-    //printf("%d %d", min, max);
-    FILE *w; // M? file ans
-    w = fopen("ans.txt","wt");
-    
-    int value = max/500 - min/500;
-    //printf("\n %d", value);
-    int tempmax, tempmin;
-    tempmax = min;
-    int i, count, j;
-    for(i = 1; i <= 500; ++i){
-    //	printf("%d \n",i);
-        rewind(f);
-        tempmin = tempmax;
-        if(i != 500){
-			tempmax = i*value + min;
-		}else{
-			tempmax = max + 1;
+    FILE *w;
+    int temp, i, j;
+	for(i = 1; i <= 5; ++i){
+		for(j = 1; j <= 250000; ++j){
+			fscanf(f, "%d\n", &temp);
+			array[j] = temp;
 		}
-	//	printf("%d %d\n",tempmin, tempmax);
-        count = 1;
-        while(!feof(f)){
-        	fscanf(f, "%d\n", &temp);
-            if((temp >= tempmin) && (temp < tempmax)){
-				array[count] = temp;
-                ++count;
-            }
-        }
-        --count;
-        heap_sort(array, 1, count);
-        for(j = 1; j <= count; ++j){
-            fprintf(w, "%d\n", array[j]);
-        }
-    }
-    
-	fclose(w);
-	fclose(f);
+		
+		heap_sort(array, 1, 25000);
+		
+		switch(i){
+			case 1: w = fopen("temp1.txt", "wt"); break;
+			case 2: w = fopen("temp2.txt", "wt"); break;
+			case 3: w = fopen("temp3.txt", "wt"); break;
+			case 4: w = fopen("temp4.txt", "wt"); break;
+		}
+		
+		for(j = 1; j <= 25000; ++j){
+			fprintf(w, "%d\n", array[j]);
+		}
+		
+		fclose(w);
+	}
+	
+	FILE *ans;
+	
+	FILE *t1, *t2, *t3, *t4;
+	
+	int count;
+	int first1 = 1, first2 = 1, first3 = 1, first4 = 1, first5 = 1;
+	int last1 = 20000, last2 = 20000, last3 = 20000, last4 = 20000, last5 = 20000;
+	int temp1, temp2, temp3, temp4, temp5;
+	int min;
+	
+	
     
     clock_t end = clock();
 	printf("\n\n\ntime run: %f",(double)(end-begin)/(double)CLOCKS_PER_SEC);
     
     return 0;    
 }
-
