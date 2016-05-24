@@ -50,54 +50,56 @@ void merge(char *in1, char *in2, char *out, int first1, int last1, int first2, i
 	int st1 = first1, st2 = first2;
 	input1 = fopen(in1,"rt");
 	input2 = fopen(in2,"rt");
+	output = fopen(out, "w");
 	while((last1 >= st1) && (last2 >= st2)){
-		output = fopen(out, "w");
-		fseek (output, 0, SEEK_END);
-		int count = 250000;
-		while((count > 1) && (last1 >= st1) && (last2 >= st2))
+		//output = fopen(out, "w");
+		//fseek (output, 0, SEEK_END);
+		//int count = 250000;
+		//while((count > 1) && (last1 >= st1) && (last2 >= st2))
 		{
 			fscanf(input1, "%d\n", &value1);
 			fscanf(input2, "%d\n", &value2);
 			if(value1 < value2){
 				fprintf(output, "%d\n", value1);
 				++st1;
-				--count;
+		//		--count;
 			}else{
 				fprintf(output, "%d\n", value2);
 				++st2;
-				--count;
+		//		--count;
 			}
 		}	
-		fclose(output);
+		//fclose(output);
 	}
 	
 	while(last1 >= st1){
-		int count = 250000;
-		output = fopen(out, "w");
-		fseek (output, 0, SEEK_END);
-		while((count > 1) && (last1 >= st1))
+		//int count = 250000;
+		//output = fopen(out, "w");
+		//fseek (output, 0, SEEK_END);
+		//while((count > 1) && (last1 >= st1))
 		{
 			fscanf(input1, "%d\n", &value1);
 			fprintf(output, "%d\n", value2);
 			++st1;
-			--count;
+		//	--count;
 		}
-		fclose(output);
+		//fclose(output);
 	}
 	
 	while(last2 >= st2){
-		output = fopen(out, "w");
-		fseek (output, 0, SEEK_END);
-		int count = 250000;
-		while((count > 1) && (last2 >= st2))
+		//output = fopen(out, "w");
+		//fseek (output, 0, SEEK_END);
+		//int count = 250000;
+		//while((count > 1) && (last2 >= st2))
 		{
 			fscanf(input2, "%d\n", &value2);
 			fprintf(output, "%d\n", value2);
 			++st2;
-			--count;
+		//	--count;
 		}
-		fclose(output);
+		//fclose(output);
 	}
+	fclose(output);
 }
 
 int main(){
